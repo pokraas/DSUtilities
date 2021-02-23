@@ -68,14 +68,22 @@ public class GraphAnalyzer {
 				+ "|V| = |E| + 1");
 	}
 	
-	private static void connectedAndAcyclic(int[] ds) {
-		if (v(ds) > e(ds) + 1) 
+	private static boolean connectedAndAcyclic(int[] ds) {
+		if (v(ds) > e(ds) + 1) {
 			System.out.println("Ist nicht zusammenhängend (Wald: |V| > |E| + 1)"
 					+ "\nKann kreisfrei (azyklisch) sein");
-		else if (v(ds) == e(ds) + 1) 
+		return false;
+		}
+		
+		else if (v(ds) == e(ds) + 1) {
 			System.out.println("Kann zusammenhängend sein (Baum: |V| = |E| + 1)"
 					+ "\nKann kreisfrei (azyklisch) sein");
-		else System.out.println("Kann zusammenhängend sein \nIst nicht kreisfrei (azyklisch): |V| < |E| + 1)");
+			return true;
+		}
+		else {
+			System.out.println("Kann zusammenhängend sein \nIst nicht kreisfrei (azyklisch): |V| < |E| + 1)");
+		return true;
+		}
 	}
 	
 	private static void eulerTour(int[] ds) {
@@ -85,7 +93,9 @@ public class GraphAnalyzer {
 				return;
 			}
 		}
-		System.out.println("Besitzt eine Eulertour, weil alle Knoten geraden Grad haben.");
+		if (!connectedAndAcyclic(ds))
+		System.out.println("Besitzt eine Eulertour (falls der Graph zusammenhängend ist), weil alle Knoten geraden Grad haben.");
+		else System.out.println("Besitzt keine Eulertour, weil der Grap nicht zusammenhängend ist");
 	}
 	
 	private static void hamiltonCycle(int[] ds) {
@@ -153,7 +163,7 @@ public class GraphAnalyzer {
 					+ "\nBitte diese manuell überprüfen und ggf. Vier-Farben-Satz anwenden: "
 					+ "χ(G) ≤ 4, wenn G planar ist";
 		}
-		System.out.println("Chromatische Zahl: χ(G)=" + chi + " (Der Graph ist " + chi + "-färbbar)"
+		System.out.println("Chromatische Zahl: χ(G) ≤ " + chi + " (Der Graph ist " + chi + "-färbbar)"
 				+ "\n" + explanation);
 	}
 	
