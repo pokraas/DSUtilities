@@ -116,6 +116,10 @@ public class CyclicPermutations {
 		for (String fString : fStrings) {
 			//Initialize all the permutations of fs
 			Permutation f = new Permutation(max);
+			if (fString.equalsIgnoreCase("Id")) {
+				fs.add(f);
+				continue;
+			}
 			String[] parenStrings = fString.split("\\)");
 			for (String parenString : parenStrings) {
 				parenString = parenString.replace("(", "");
@@ -132,6 +136,10 @@ public class CyclicPermutations {
 		else for (String gString : gStrings) {
 			//Initialize all the permutations of fs
 			Permutation g = new Permutation(max);
+			if (gString.equalsIgnoreCase("Id")) {
+				gs.add(g);
+				continue;
+			}
 			String[] parenStrings = gString.split("\\)");
 			for (String parenString : parenStrings) {
 				parenString = parenString.replace("(", "");
