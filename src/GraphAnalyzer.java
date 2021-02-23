@@ -64,10 +64,12 @@ public class GraphAnalyzer {
 	
 	private static void treeAndForest(int[] ds) {
 		if (v(ds) > e(ds) + 1) System.out.println("Kann ein Wald sein: |V| > |E| + 1");
-		else if (v(ds) == e(ds) + 1) System.out.println("Kann ein Baum (und offensichtlich ein Wald) sein: "
+		for (int d : ds) if (d == 0) return;
+		if (v(ds) == e(ds) + 1) System.out.println("Kann ein Baum (und offensichtlich ein Wald) sein: "
 				+ "|V| = |E| + 1");
 	}
 	
+	/** @return true if can be connected */
 	private static boolean connectedAndAcyclic(int[] ds) {
 		if (v(ds) > e(ds) + 1) {
 			System.out.println("Ist nicht zusammenhängend (Wald: |V| > |E| + 1)"
@@ -86,16 +88,18 @@ public class GraphAnalyzer {
 		}
 	}
 	
-	private static void eulerTour(int[] ds) {
+	private static void eulerTour(int[] ds, boolean connected) {
 		for (int d : ds) {
 			if (d % 2 != 0) {
 				System.out.println("Keine Eulertour: es gibt Knoten mit ungeradem Grad.");
 				return;
 			}
 		}
-		if (!connectedAndAcyclic(ds))
-		System.out.println("Besitzt eine Eulertour (falls der Graph zusammenhängend ist), weil alle Knoten geraden Grad haben.");
-		else System.out.println("Besitzt keine Eulertour, weil der Grap nicht zusammenhängend ist");
+		if (connected) {
+			System.out.println("Besitzt eine Eulertour (nur falls der Graph zusammenhängend ist!),"
+					+ "weil alle Knoten geraden Grad haben.");
+		}
+		else System.out.println("Besitzt keine Eulertour, weil der Graph nicht zusammenhängend ist");
 	}
 	
 	private static void hamiltonCycle(int[] ds) {
@@ -114,7 +118,6 @@ public class GraphAnalyzer {
 	}
 	
 	private static Boolean planarity(int[] ds) {
-		System.out.println("Teilt die Ebene in " + (2 + e(ds) - v(ds)) + " Flächen (Eulersche Polyederformel)");
 		boolean flag = false;
 		for (int d : ds) {
 			if (d <= 5) {
@@ -141,6 +144,13 @@ public class GraphAnalyzer {
 		System.out.println("Manuell überprüfen, ob K3,3 oder K5 ein Minor von diesem Graph ist.");
 		System.out.println("Wenn ja, dann ist der Graph laut Satz von Kuratowski planar.");
 		return null;
+	}
+	
+	private static void planeDivision(int[]ds, Boolean planar, boolean connected) {
+		if (connected && planar != null && planar) {
+			System.out.println("Teilt die Ebene in " + (2 + e(ds) - v(ds)) + " Flächen "
+					+ "(Eulersche Polyederformel: ƒ + |V| - |E| = 2)");
+		}
 	}
 	
 	private static void chromaticNumber(int[] ds, Boolean planar) {
@@ -182,13 +192,14 @@ public class GraphAnalyzer {
 		System.out.println("\nAlgorithmus von Havel-Hakimi (Realisierbarkeit):");
 		if (!havelHakimi(ds)) return;
 		System.out.println();
-		connectedAndAcyclic(ds);
+		boolean connected = connectedAndAcyclic(ds);
 		treeAndForest(ds);
 		System.out.println();
-		eulerTour(ds);
+		eulerTour(ds, connected);
 		hamiltonCycle(ds);
 		System.out.println();
 		boolean planar = planarity(ds);
+		planeDivision(ds, connected, planar);
 		System.out.println();
 		chromaticNumber(ds, planar);
 	}
