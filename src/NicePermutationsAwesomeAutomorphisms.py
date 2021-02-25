@@ -24,7 +24,7 @@ for p in perm:
     matrix2 = matrix.copy()
     for i in range(size):
         a = p[i] - 1
-        if (a > i):
+        if a > i:
             matrix2[:, [a, i]] = matrix2[:, [i, a]]  # swap columns
             matrix2[[a, i]] = matrix2[[i, a]]  # swap lines
             if (i + 1, p[i]) not in res:
@@ -50,4 +50,4 @@ print("Automorphismen: ")
 for i in RES:
     print(i)
 end = time()
-print("Gemacht in ", end - begin, 's')
+print("Erledigt in ", end - begin, 's')
