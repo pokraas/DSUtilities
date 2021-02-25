@@ -124,6 +124,8 @@ public class AlgebraModuloGroups {
             System.out.println(erzeugerList.get(erzeugerList.size() - 1) + "}");
             System.out.println("Anzahl von Erzeuger: " + erzeugerList.size() + ". Diese Gruppe ist eine zyklische Gruppe!" + System.lineSeparator());
         }
-        System.out.println("Gruppenexponent λ bitte selbst nachrechnen (kgV von den folgenden Ordnungen: {" + ordnungen + "})");
+        if (erzeuger)
+            System.out.println("Gruppenexponent λ = " + numbers.size());
+        else System.out.println("Gruppenexponent λ bitte selbst nachrechnen (kgV von den folgenden Ordnungen: {" + ordnungen + "})");
     }
 }
