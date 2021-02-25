@@ -198,8 +198,8 @@ public class GraphAnalyzer {
 		eulerTour(ds, connected);
 		hamiltonCycle(ds);
 		System.out.println();
-		boolean planar = planarity(ds);
-		planeDivision(ds, connected, planar);
+		Boolean planar = planarity(ds);
+		planeDivision(ds, planar, connected);
 		System.out.println();
 		chromaticNumber(ds, planar);
 	}
