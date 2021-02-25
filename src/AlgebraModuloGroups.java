@@ -116,7 +116,7 @@ public class AlgebraModuloGroups {
             System.out.println(ordnung.get(ordnung.size() - 1) + "}" + System.lineSeparator());
         }
         if (!erzeuger)
-            System.out.println("Diese Gruppe enthält leider keinen Erzeuger und deswegen ist nicht zyklisch");
+            System.out.println("Diese Gruppe enthält leider keinen Erzeuger und ist deswegen nicht zyklisch");
         else {
             System.out.print("Erzeuger von |G|: {");
             for (int i = 0; i < erzeugerList.size() - 1; i++)
@@ -126,6 +126,6 @@ public class AlgebraModuloGroups {
         }
         if (erzeuger)
             System.out.println("Gruppenexponent λ = " + numbers.size());
-        else System.out.println("Gruppenexponent λ bitte selbst nachrechnen (kgV von den folgenden Ordnungen: {" + ordnungen + "})");
+        else System.out.println("Gruppenexponent λ bitte selbst nachrechnen: (kgV von den folgenden Ordnungen: {" + ordnungen + "})");
     }
 }
