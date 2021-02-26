@@ -37,13 +37,17 @@ for p in perm:
         print(str(int((c / (l // 10)) * 10)) + '% ', end='')
     c += 1
 
-for i in range(len(RES)):
+for i in range(len(RES) - 1):
     j = 0
     while j < len(RES[i]) - 1:
-        if RES[i][j][-1] == RES[i][j + 1][0]:  # Example: [(2, 3), (3, 4)] = [(2, 3, 4)]
-            RES[i][j] = RES[i][j] + RES[i][j + 1][1:]  # "merge" (2, 3) and (3, 4) to (2, 3, 4)
-            RES[i].remove(RES[i][j + 1])  # remove (3, 4)
-            j -= 1
+        k = j + 1
+        while k < len(RES[i]):
+            if j != k and RES[i][j][-1] == RES[i][k][0]:  # Example: [(2, 3), (3, 4)] = [(2, 3, 4)]
+                RES[i][j] = RES[i][j] + RES[i][k][1:]  # "merge" (2, 3) and (3, 4) to (2, 3, 4)
+                RES[i].remove(RES[i][k])  # remove (3, 4)
+                k -= 1
+                j -= 1
+            k += 1
         j += 1
 
 print("100%")
