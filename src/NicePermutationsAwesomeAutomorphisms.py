@@ -1,12 +1,13 @@
 from itertools import permutations
 import numpy as np
 from time import time
+import os
 
-size = int(input("Anzahl an Knoten im Graphen:\n"))
+size = int(input("Anzahl an Knoten im Graphen:" + os.linesep))
 matrix = np.zeros((size, size), dtype=int)
 
 while True:
-    s = input("Knotenpaar (Kante von nach) oder nichts eingeben:\n")
+    s = input("Knotenpaar (Kante von nach) oder nichts eingeben:" + os.linesep)
     if s == '':
         break
     v1, v2 = map(int, s.split())
