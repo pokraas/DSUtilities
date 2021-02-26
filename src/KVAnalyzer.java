@@ -9,8 +9,8 @@ import java.util.function.IntConsumer;
 import java.util.function.IntPredicate;
 
 public class KVAnalyzer {
-	private static final String PREFERRED_ORDER_OF_VARIABLES = "olur"; //usually in tasks
-	private class Clause {
+	public static final String PREF_ORDER_OF_VARIABLES = "olur";
+	protected class Clause {
 		final int[] orul;
 		/** Form a new DNF clause for one (!) field (x,y) */
 		Clause(int x, int y) {
@@ -23,14 +23,9 @@ public class KVAnalyzer {
 		Clause(int[] orul){
 			this.orul = orul;
 		}
-		private boolean checkNegationOnField(char toFind, int x, int y) {
-			switch(toFind) {
-			case 'o': return x > 0 && x < 3;
-			case 'r': return y > 1;
-			case 'u': return x > 1;
-			case 'l': return y > 0 && y < 3;
-			default: throw new IllegalArgumentException();
-			}
+		/** Create an empty Clause */
+		Clause() {
+			this(new int[4]);
 		}
 		
 		private boolean predictForChar (char c, IntPredicate f) {
@@ -96,10 +91,19 @@ public class KVAnalyzer {
 			return true;
 		}
 		
+		/**Returns an array of all chars of "orul" contained in this clause */
+		char[] allChars() {
+			String ret = "";
+			for (char c : "orul".toCharArray()) {
+				if (contains(c)) ret += c;
+			}
+			return ret.toCharArray();
+		}
+		
 		@Override
 		public String toString() {
 			String ret = "{";
-			for (char c : PREFERRED_ORDER_OF_VARIABLES.toCharArray()) {//TODO preferred order of variables!
+			for (char c : PREF_ORDER_OF_VARIABLES.toCharArray()) {//TODO preferred order of variables!
 				ret += contains(c) ? get(c) ? name(c) + ", " : "¬" + name(c) + ", " : "";
 			}
 			if (ret.equals("{")) return "{}";
@@ -122,8 +126,8 @@ public class KVAnalyzer {
 		}
 	}
 	
-	private final String o,r,u,l;
-	private final boolean[][] kv;
+	protected final String o,r,u,l;
+	protected final boolean[][] kv;
 	
 	KVAnalyzer(String o, String r, String u, String l, boolean[][] kv) {
 		this.o = o;
@@ -131,6 +135,16 @@ public class KVAnalyzer {
 		this.u = u;
 		this.l = l;
 		this.kv = kv;
+	}
+	
+	protected static boolean checkNegationOnField(char toFind, int x, int y) {
+		switch(toFind) {
+		case 'o': return x > 0 && x < 3;
+		case 'r': return y > 1;
+		case 'u': return x > 1;
+		case 'l': return y > 0 && y < 3;
+		default: throw new IllegalArgumentException();
+		}
 	}
 	
 	private ArrayList<Clause> dnfStart() {
@@ -286,7 +300,7 @@ public class KVAnalyzer {
 				);
 	}
 	
-	private static void printKVMap(String o, String r, String u, String l, boolean[][] kv) {
+	protected static void printKVMap(String o, String r, String u, String l, boolean[][] kv) {
 		System.out.printf("            %s\n", o);
 		System.out.printf("           ───────\n");
 		System.out.printf("      ╔═══╤═══╤═══╤═══╗\n");
