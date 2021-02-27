@@ -21,7 +21,8 @@ public class KNFToKV extends KVAnalyzer {
 		String u = in.readLine();
 		System.out.println("Geben Sie den Namen der linken Variable ein");
 		String l = in.readLine();
-		System.out.println("Geben Sie die Formel in Klauselmengendarstellung (KNF) ein");
+		System.out.println("Geben Sie die Formel in Klauselmengendarstellung (KNF) ein.");
+		System.out.println("Empfohlen für Windows: ! anstatt ¬ für Negation von Variablen verwenden.");
 		String formula = in.readLine().replace(" ", "")
 				.replace("{{", "").replace(",{", "").replace("}}", "}");
 		String[] clausesArray = formula.split("}");
@@ -34,8 +35,8 @@ public class KNFToKV extends KVAnalyzer {
 		for (String clauseString : clausesArray) {
 			Clause clause = k.new Clause();
 			for (String variable : clauseString.split(",")) {
-				boolean negated = variable.startsWith("¬");
-				if (negated) variable = variable.replace("¬", "");
+				boolean negated = variable.startsWith("¬") || variable.startsWith("!");
+				if (negated) variable = variable.replace("¬", "").replace("!", "");
 				for (int i = 0; i < 4; i++) {
 					String name = names[i];
 					if (name.equals(variable)) {
