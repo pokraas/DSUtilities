@@ -39,6 +39,7 @@ public class TruthTableBuilder {
 		
 		//At this point, each variable, each operation and each parenthesis is represented by exactly one char in exprString.
 		parsedExprString = exprString;
+		//System.out.println("\nUmgekehrte polnische Notation (für Debugging): " + parsedExprString + "\n"); //TODO
 		
 		//Parse the exprString to RPN
 		mapExpr = new int[exprString.length()];
@@ -65,7 +66,7 @@ public class TruthTableBuilder {
 				//popAndAdd all the operators (that are not left parenthesis) with greater precedence than this one
 				while (!opStack.isEmpty()
 						&& opStack.peek() != '('
-						&& precedence(opStack.peek()) < precedence(token)) {
+						&& precedence(opStack.peek()) <= precedence(token)) { //TODO
 					popAndAdd();
 				}
 				push(token, i);
@@ -134,7 +135,7 @@ public class TruthTableBuilder {
 		return ret;
 	}
 	
-	private int[] evaluate(boolean[] assignment) {
+	private ArrayList<Integer> evaluate(boolean[] assignment) {
 		Stack<Boolean> vals = new Stack<>();
 		int[] a = new int[exprRPN.size()];
 		
@@ -157,7 +158,15 @@ public class TruthTableBuilder {
 				a[i] = res ? 1 : 0;
 			}
 		}
-		return a;
+		
+		ArrayList<Integer> ret = new ArrayList<>();
+		//Change order of elements in a according to mapExpr
+		for (int i = 0; i < parsedExprString.length(); i++) {
+			char c = parsedExprString.charAt(i);
+			if ("()".contains(c + "")) continue;
+			ret.add(a[mapExpr[i]]);
+		}
+		return ret;
 	}
 	
 	private boolean applyToTwoArgs(char op, boolean arg1, boolean arg2) {
@@ -183,7 +192,7 @@ public class TruthTableBuilder {
 		//Print the expression
 		String curr = "";
 		for (char c : parsedExprString.toCharArray()) {
-			if (c == '(' || c == ')') curr += c + " ";
+			if (c == '(' || c == ')') curr += c;
 			else if (c >= '0' && c <= '9') {
 				curr += vars.get(c - '0');
 				curr += "        ".substring(curr.length());
@@ -222,11 +231,8 @@ public class TruthTableBuilder {
 			System.out.print("║    ");
 			
 			//Print a row of the truth table for the concrete assignment
-			int[] evaluated = evaluate(assignment);
-			for (int i = 0; i < parsedExprString.length(); i++) {
-				char c = parsedExprString.charAt(i);
-				if ("()".contains(c + "")) continue;
-				System.out.print(evaluated[mapExpr[i]] + "       ");
+			for (int i : evaluate(assignment)) {
+				System.out.print(i + "       ");
 			}
 			System.out.println();
 		}
