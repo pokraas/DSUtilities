@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
  * @author Alex Pokras
  */
 public class TruthTableBuilder {
+	private static final char PREFERRED_CHAR_TRUE = 'X', PREFERRED_CHAR_FALSE = '.'; //TODO your preferred chars here
 	private static final String[][] OP_STRINGS = new String[][] {
 		"¬ ! ~ - not".split(" "),
 		"∧ & * and".split(" "),
@@ -32,6 +33,7 @@ public class TruthTableBuilder {
 	TruthTableBuilder(ArrayList<String> vars, String exprString) {
 		this.vars = vars;
 		exprString = exprString.replace(" ", "");
+
 		for (int i = OPS.length - 1; i >= 0; i--) { //Important: the symbol <-> contains the symbol -> as a substring,
 													//so <-> should be replaced first.
 			for (String opString : OP_STRINGS[i]) {
@@ -41,10 +43,11 @@ public class TruthTableBuilder {
 		for (int i = 0; i < vars.size(); i++) {
 			exprString = exprString.replace(vars.get(i), i + "");			
 		}
-		
 		//At this point, each variable, each operation and each parenthesis is represented by exactly one char in exprString.
 		parsedExprString = exprString;
-		//System.out.println("\nUmgekehrte polnische Notation (für Debugging): " + parsedExprString + "\n"); //TODO
+		System.out.println("\nGelesene Eingabe (für Debugging): " + parsedExprString);
+		System.out.println(Arrays.toString(parsedExprString.toCharArray()));
+		System.out.println();
 		
 		//Parse the exprString to RPN
 		mapExpr = new int[exprString.length()];
@@ -71,7 +74,7 @@ public class TruthTableBuilder {
 				//popAndAdd all the operators (that are not left parenthesis) with greater precedence than this one
 				while (!opStack.isEmpty()
 						&& opStack.peek() != '('
-						&& precedence(opStack.peek()) <= precedence(token)) { //TODO
+						&& precedence(opStack.peek()) <= precedence(token)) {
 					popAndAdd();
 				}
 				push(token, i);
@@ -237,7 +240,7 @@ public class TruthTableBuilder {
 			
 			//Print a row of the truth table for the concrete assignment
 			for (int i : evaluate(assignment)) {
-				System.out.print(i + "       ");
+				System.out.print((i == 1 ? PREFERRED_CHAR_TRUE : PREFERRED_CHAR_FALSE) + "       ");
 			}
 			System.out.println();
 		}
@@ -261,7 +264,6 @@ public class TruthTableBuilder {
 		System.out.println("(\n)");
 		
 		TruthTableBuilder builder = new TruthTableBuilder(vars, in.readLine());
-		//builder.variableAssignments(); //TODO
 		builder.printTable();
 	}
 }
