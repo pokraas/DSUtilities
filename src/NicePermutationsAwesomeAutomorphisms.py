@@ -36,7 +36,6 @@ for p in perm:
     if (l // 10) > 0 and c % (l // 10) == 0:
         print(str(int((c / (l // 10)) * 10)) + '% ', end='')
     c += 1
-
 for i in range(len(RES) - 1):
     j = 0
     while j < len(RES[i]) - 1:
