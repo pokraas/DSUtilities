@@ -1,16 +1,17 @@
 from tabulate import tabulate
 
-a, b = map(int, input("Geben Sie a und b an").split())
+
+a, b = map(int, input("Geben Sie a und b an\n").split())
 if a > b:
     a, b = b, a
 table = []
-while a != 0:
+while b % a != 0:
     k = b // a
     table.append([a, b, k, 0, 0])
     ca = a
     a = b - k * a
     b = ca
-table.append([a, b, '-', 0, 1])
+table.append([a, b, '-', 1, 0])
 
 for i in range(len(table) - 2, -1, -1):
     table[i][4] = table[i + 1][3]  # β = α'
