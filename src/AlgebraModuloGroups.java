@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -49,46 +50,48 @@ public class AlgebraModuloGroups {
                 numbers.add(i);
             }
         }
-        int[][] table = new int[numbers.size()][numbers.size()];
-        for (int i = 0; i < numbers.size(); i++)
-            for (int j = 0; j < numbers.size(); j++) {
-                if (input == '*')
-                    table[i][j] = numbers.get(j) * numbers.get(i) % n;
-                else table[i][j] = (numbers.get(j) + numbers.get(i)) % n;
-            }
-        System.out.println("──────┬".repeat(numbers.size() + 1));
-        System.out.print  ("      │ ");
-        for (Integer number : numbers) {
-            System.out.print(" " + number + "    │ ".substring(Integer.toString(number).length()));
-        }
-        for (int i = 0; i < numbers.size(); i++) {
-            System.out.print(System.lineSeparator() + "──────┼".repeat(numbers.size() + 1) + System.lineSeparator());
-            System.out.print(" " + numbers.get(i) + "     │  ".substring(Integer.toString(numbers.get(i)).length()));
-            for (int j = 0; j < numbers.size(); j++)
-                System.out.print(table[i][j] + "    │  ".substring(Integer.toString(table[i][j]).length()));
-        }
-        System.out.println();
-        System.out.println("──────┴".repeat(numbers.size() + 1));
-        System.out.print(System.lineSeparator() + System.lineSeparator());
         List<Integer> temp1 = numbers;
-        if (input == '+') {
-            numbers = new ArrayList<>();
-            for (int i = 1; i < n; i++) {
-                for (Integer integer : DividerOfN) {
-                    if (i % integer == 0) {
-                        toRemove = true;
-                        break;
-                    }
+        if (numbers.size() <= 30) {
+            int[][] table = new int[numbers.size()][numbers.size()];
+            for (int i = 0; i < numbers.size(); i++)
+                for (int j = 0; j < numbers.size(); j++) {
+                    if (input == '*')
+                        table[i][j] = numbers.get(j) * numbers.get(i) % n;
+                    else table[i][j] = (numbers.get(j) + numbers.get(i)) % n;
                 }
-                if (!toRemove)
-                    numbers.add(i);
-                toRemove = false;
+            System.out.println("──────┬".repeat(numbers.size() + 1));
+            System.out.print("      │ ");
+            for (Integer number : numbers) {
+                System.out.print(" " + number + "    │ ".substring(Integer.toString(number).length()));
+            }
+            for (int i = 0; i < numbers.size(); i++) {
+                System.out.print(System.lineSeparator() + "──────┼".repeat(numbers.size() + 1) + System.lineSeparator());
+                System.out.print(" " + numbers.get(i) + "     │  ".substring(Integer.toString(numbers.get(i)).length()));
+                for (int j = 0; j < numbers.size(); j++)
+                    System.out.print(table[i][j] + "    │  ".substring(Integer.toString(table[i][j]).length()));
+            }
+            System.out.println();
+            System.out.println("──────┴".repeat(numbers.size() + 1));
+            System.out.print(System.lineSeparator() + System.lineSeparator());
+            if (input == '+') {
+                numbers = new ArrayList<>();
+                for (int i = 1; i < n; i++) {
+                    for (Integer integer : DividerOfN) {
+                        if (i % integer == 0) {
+                            toRemove = true;
+                            break;
+                        }
+                    }
+                    if (!toRemove)
+                        numbers.add(i);
+                    toRemove = false;
+                }
             }
         }
         System.out.println("Phi(" + n + "): " + numbers.size() + System.lineSeparator());
         numbers = temp1;
         boolean erzeuger = false;
-        List<Integer> ordnungen = new ArrayList<>();
+        HashSet<Integer> ordnungen = new HashSet<>();
         List<Integer> erzeugerList = new ArrayList<>();
         for (int i = 0; i < numbers.size(); i++) {
             List<Integer> ordnung = new ArrayList<>();
