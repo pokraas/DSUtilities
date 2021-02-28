@@ -4,6 +4,12 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+/**
+ * Helps analyze some fundamental properties of all graphs with the given degree sequence.
+ * 
+ * @author Mariia Bogatyreva
+ * @author Alex Pokras
+ */
 public class GraphAnalyzer {
 	
 	private static String dsToString(int[] ds) {

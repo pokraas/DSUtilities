@@ -6,6 +6,11 @@ import java.util.Arrays;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+/**
+ * Draws a truth table from the given boolean expression.
+ * 
+ * @author Alex Pokras
+ */
 public class TruthTableBuilder {
 	private static final String[][] OP_STRINGS = new String[][] {
 		"¬ ! ~ - not".split(" "),

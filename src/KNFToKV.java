@@ -3,6 +3,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * Draws a KV-diagram (AKA K-map, Karnaugh map) from the given boolean expression.
+ * 
+ * @author Mariia Bogatyreva
+ * @author Alex Pokras
+ */
 public class KNFToKV extends KVAnalyzer {
 	static final String PREFERRED_ORDER_OF_VARIABLES = "orul";
 

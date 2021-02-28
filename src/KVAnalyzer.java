@@ -8,6 +8,12 @@ import java.util.Queue;
 import java.util.function.IntConsumer;
 import java.util.function.IntPredicate;
 
+/**
+ * Generates a boolean expression in KNF from the given KV-diagram (AKA K-map, Karnaugh map) 
+ * 
+ * @author Mariia Bogatyreva
+ * @author Alex Pokras
+ */
 public class KVAnalyzer {
 	public static final String PREF_ORDER_OF_VARIABLES = "olur";
 	protected class Clause {
