@@ -56,17 +56,19 @@ public class AlgebraModuloGroups {
                     table[i][j] = numbers.get(j) * numbers.get(i) % n;
                 else table[i][j] = (numbers.get(j) + numbers.get(i)) % n;
             }
-        System.out.println("_".repeat(numbers.size() * 8));
-        System.out.print("        ");
+        System.out.println("──────┬".repeat(numbers.size() + 1));
+        System.out.print  ("      │ ");
         for (Integer number : numbers) {
-            System.out.print(number + "   |  ");
+            System.out.print(" " + number + "    │ ".substring(Integer.toString(number).length()));
         }
         for (int i = 0; i < numbers.size(); i++) {
-            System.out.print(System.lineSeparator() + "_".repeat(numbers.size() * 8) + System.lineSeparator());
-            System.out.print("|" + numbers.get(i) + "   |  ");
+            System.out.print(System.lineSeparator() + "──────┼".repeat(numbers.size() + 1) + System.lineSeparator());
+            System.out.print(" " + numbers.get(i) + "     │  ".substring(Integer.toString(numbers.get(i)).length()));
             for (int j = 0; j < numbers.size(); j++)
-                System.out.print(table[i][j] + "   |  ");
+                System.out.print(table[i][j] + "    │  ".substring(Integer.toString(table[i][j]).length()));
         }
+        System.out.println();
+        System.out.println("──────┴".repeat(numbers.size() + 1));
         System.out.print(System.lineSeparator() + System.lineSeparator());
         List<Integer> temp1 = numbers;
         if (input == '+') {
