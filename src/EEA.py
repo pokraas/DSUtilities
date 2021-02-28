@@ -1,7 +1,6 @@
 from tabulate import tabulate
 
 a, b = map(int, input("Geben Sie a und b an").split())
-
 if a > b:
     a, b = b, a
 table = []
