@@ -10,11 +10,22 @@ import java.util.List;
  * @author Andriy Manucharyan
  */
 
+
+/*
+ just for me:
+ n - input
+ neutral - das neutrale Element
+ numbers - list of all elements of phi(n)
+ ordnung - list of numbers which build ordnung of one element
+ ordnungen - set of ordnung.size for each element to find Gruppenexponent
+ erzeuger - boolean value if current element is Erzeuger
+ erzeugerList - list of Erzeuger
+ */
 public class AlgebraModuloGroups {
 
     public static void main(String[] args) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Tabelle für phi(n) konstruieren, bitte n eingeben: ");
+        System.out.println("Bitte die Modulogruppenzahl eingeben: ");
         int n = Integer.parseInt(in.readLine());
         System.out.println("Geben Sie * für multiplikative Gruppe modulo " + n + " und + für additive");
         char input = in.readLine().charAt(0);
@@ -22,6 +33,9 @@ public class AlgebraModuloGroups {
             System.err.print("Invalid character!");
             System.exit(69);
         }
+        System.out.println("Enter-Taste für alle Ordnungen oder Zahlen, für die die Ordnungen bestimmt werden sollen, aufzählen");
+        System.out.println("z.B. für: '3 5 7 19' werden 4 Ordnungen angezeigt");
+        String user = in.readLine();
         int neutral;
         if (input == '+')
             neutral = 0;
@@ -73,22 +87,22 @@ public class AlgebraModuloGroups {
             System.out.println();
             System.out.println("──────┴".repeat(numbers.size() + 1));
             System.out.print(System.lineSeparator() + System.lineSeparator());
-            if (input == '+') {
-                numbers = new ArrayList<>();
-                for (int i = 1; i < n; i++) {
-                    for (Integer integer : DividerOfN) {
-                        if (i % integer == 0) {
-                            toRemove = true;
-                            break;
-                        }
-                    }
-                    if (!toRemove)
-                        numbers.add(i);
-                    toRemove = false;
+        }
+        ArrayList<Integer> userPref = new ArrayList<>();
+        if (!user.isEmpty()) {
+            String[] newNumbers = user.split(" ");
+            for (int i = 0; i < newNumbers.length; i++) {
+                userPref.add(Integer.parseInt(newNumbers[i]));
+            }
+            for (Integer integer : userPref) {
+                if (!numbers.contains(integer)) {
+                    System.out.println(numbers.toString());
+                    System.err.println("Phi(n) doesn't contain " + integer);
+                    System.exit(6969);
                 }
             }
         }
-        System.out.println("Phi(" + n + "): " + numbers.size() + System.lineSeparator());
+        System.out.println("Gruppengröße = Phi(" + n + ") = " + numbers.size() + System.lineSeparator());
         numbers = temp1;
         boolean erzeuger = false;
         HashSet<Integer> ordnungen = new HashSet<>();
@@ -111,12 +125,14 @@ public class AlgebraModuloGroups {
                 erzeuger = true;
                 erzeugerList.add(temp);
             }
-            System.out.print("Ord(" + temp + "): " + ordnung.size() + "; ");
-            System.out.print("<" + temp + "> = " + "{");
-            for (int j = 0; j < ordnung.size() - 1; j++) {
-                System.out.print(ordnung.get(j) + ", ");
+            if (user.isBlank() || userPref.contains(temp)) {
+                System.out.print("Ord(" + temp + "): " + ordnung.size() + "; ");
+                System.out.print("<" + temp + "> = " + "{");
+                for (int j = 0; j < ordnung.size() - 1; j++) {
+                    System.out.print(ordnung.get(j) + ", ");
+                }
+                System.out.println(ordnung.get(ordnung.size() - 1) + "}" + System.lineSeparator());
             }
-            System.out.println(ordnung.get(ordnung.size() - 1) + "}" + System.lineSeparator());
         }
         if (!erzeuger)
             System.out.println("Diese Gruppe enthält leider keinen Erzeuger und ist deswegen nicht zyklisch");
